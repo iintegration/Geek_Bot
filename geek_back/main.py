@@ -59,3 +59,16 @@ def analyse_period(
 ):
     analysis_result = crud.get_analyse_period(db, start_time=start_time, end_time=end_time, skip=skip, limit=limit)
     return analysis_result
+
+
+@app.get("/analyse/period/course/")
+def analyse_period_course(
+    start_time: datetime = Query(..., description="Start time of the analysis period"),
+    end_time: datetime = Query(..., description="End time of the analysis period"),
+    course: str = Query(..., description="Course for analysis"),
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_db)
+):
+    analysis_result = crud.get_analyse_period_course(db, start_time=start_time, end_time=end_time, course=course, skip=skip, limit=limit)
+    return JSONResponse(content={"analysis_result": analysis_result})
