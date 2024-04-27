@@ -18,3 +18,4 @@ class Answer(Base):
     answer = Column(String, index=True)
     user_id = Column(String, index=True)
     question_id = Column(Integer, ForeignKey("questions.id"))
+    created_at = Column(String, index=True)
