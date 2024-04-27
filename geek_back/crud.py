@@ -44,11 +44,11 @@ def get_answers_formatted(db: Session, skip: int = 0, limit: int = 100):
     return data_format
 
 
-def get_analyse(db: Session, skip: int = 0, limit: int = 100) -> list[dict[str, list[int]]]:
+
+def get_analyse(db: Session, skip: int = 0, limit: int = 100) -> dict:
     answers = db.query(models.Answer).offset(skip).limit(limit).all()
 
     user_answers = {}
-    # user_ids_to_remove = set()
 
     for answer in answers:
         user_id = answer.user_id
@@ -59,14 +59,6 @@ def get_analyse(db: Session, skip: int = 0, limit: int = 100) -> list[dict[str, 
             user_answers[user_id] = {}
 
         user_answers[user_id][f"question_{question_id}"] = answer_text
-
-    # REMOVE FILTER_QUESTION > 4 <11
-    # for user_id, answers in user_answers.items():
-    #     if 'question_6' in answers and (int(answers['question_6']) < 5) or (int(answers['question_6']) > 11):
-    #         user_ids_to_remove.add(user_id)
-
-    # for user_id in user_ids_to_remove:
-    #     del user_answers[user_id]
 
     data_format = list(user_answers.values())
 
@@ -82,7 +74,6 @@ def get_analyse(db: Session, skip: int = 0, limit: int = 100) -> list[dict[str, 
     pred_positive = [int(value) for value in pred_positive]
     pred_relevant = [int(value) for value in pred_relevant]
 
-    # Подсчеты и процентное соотношение для каждой модели
     pred_object_count = Counter(pred_object)
     pred_positive_count = Counter(pred_positive)
     pred_relevant_count = Counter(pred_relevant)
@@ -91,16 +82,32 @@ def get_analyse(db: Session, skip: int = 0, limit: int = 100) -> list[dict[str, 
 
     result = {
         "pred_object": {
-            "counts": pred_object_count,
-            "percentages": {key: value / total_samples * 100 for key, value in pred_object_count.items()}
+            "вебинар": pred_object_count.get(0, 0),
+            "программа": pred_object_count.get(1, 0),
+            "преподаватель": pred_object_count.get(2, 0),
+            "percentages": {
+                "вебинар": pred_object_count.get(0, 0) / total_samples * 100,
+                "программа": pred_object_count.get(1, 0) / total_samples * 100,
+                "преподаватель": pred_object_count.get(2, 0) / total_samples * 100
+            }
         },
         "pred_positive": {
-            "counts": pred_positive_count,
-            "percentages": {key: value / total_samples * 100 for key, value in pred_positive_count.items()}
+            "позитивные": pred_positive_count.get(1, 0),
+            "негативные": pred_positive_count.get(0, 0),
+            "percentages": {
+                "позитивные": pred_positive_count.get(1, 0) / total_samples * 100,
+                "негативные": pred_positive_count.get(0, 0) / total_samples * 100
+            }
         },
         "pred_relevant": {
-            "counts": pred_relevant_count,
-            "percentages": {key: value / total_samples * 100 for key, value in pred_relevant_count.items()}
+            "counts": {
+                "релевантные": pred_relevant_count.get(1, 0),
+                "нерелевантные": pred_relevant_count.get(0, 0)
+            },
+            "percentages": {
+                "релевантные": pred_relevant_count.get(1, 0) / total_samples * 100,
+                "нерелевантные": pred_relevant_count.get(0, 0) / total_samples * 100
+            }
         },
         "data": data_format
     }
@@ -108,7 +115,7 @@ def get_analyse(db: Session, skip: int = 0, limit: int = 100) -> list[dict[str, 
     return result
 
 
-def get_analyse_period(db: Session, start_time: datetime, end_time: datetime, skip: int = 0, limit: int = 100):
+def get_analyse_period(db: Session, start_time: datetime, end_time: datetime, skip: int = 0, limit: int = 100) -> dict:
     answers_formatted = get_answers_formatted(db, skip=skip, limit=limit)
 
     # Фильтруем ответы по временному промежутку
@@ -149,16 +156,32 @@ def get_analyse_period(db: Session, start_time: datetime, end_time: datetime, sk
 
     result = {
         "pred_object": {
-            "counts": pred_object_count,
-            "percentages": {key: value / total_samples * 100 for key, value in pred_object_count.items()}
+            "вебинар": pred_object_count.get(0, 0),
+            "программа": pred_object_count.get(1, 0),
+            "преподаватель": pred_object_count.get(2, 0),
+            "percentages": {
+                "вебинар": pred_object_count.get(0, 0) / total_samples * 100,
+                "программа": pred_object_count.get(1, 0) / total_samples * 100,
+                "преподаватель": pred_object_count.get(2, 0) / total_samples * 100
+            }
         },
         "pred_positive": {
-            "counts": pred_positive_count,
-            "percentages": {key: value / total_samples * 100 for key, value in pred_positive_count.items()}
+            "позитивные": pred_positive_count.get(1, 0),
+            "негативные": pred_positive_count.get(0, 0),
+            "percentages": {
+                "позитивные": pred_positive_count.get(1, 0) / total_samples * 100,
+                "негативные": pred_positive_count.get(0, 0) / total_samples * 100
+            }
         },
         "pred_relevant": {
-            "counts": pred_relevant_count,
-            "percentages": {key: value / total_samples * 100 for key, value in pred_relevant_count.items()}
+            "counts": {
+                "релевантные": pred_relevant_count.get(1, 0),
+                "нерелевантные": pred_relevant_count.get(0, 0)
+            },
+            "percentages": {
+                "релевантные": pred_relevant_count.get(1, 0) / total_samples * 100,
+                "нерелевантные": pred_relevant_count.get(0, 0) / total_samples * 100
+            }
         },
         "data": data_format
     }

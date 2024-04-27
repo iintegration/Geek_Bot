@@ -4,6 +4,7 @@ from typing import List, Dict
 from fastapi import Depends, FastAPI, HTTPException, Query
 from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from . import crud, models, schemas
 from .database import SessionLocal, engine
@@ -12,6 +13,14 @@ from .schemas import AnalysisResult
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # или конкретные источники: ["https://example.com", "http://localhost"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # Dependency
