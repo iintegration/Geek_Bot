@@ -10,7 +10,6 @@
         <v-col>
           <v-container>
             <Line
-                class="w-50 h-50"
                 aria-label="График"
                 id="my-chart-id"
                 :data="chartData"
@@ -34,7 +33,7 @@
               <v-col>
                 <v-card class="pa-2 bg-light-blue" elevation="4">
                   <v-row>
-                    <v-col cols="4"><v-card title="Оценка пользователя" :text="answer.question_1"/></v-col>
+                    <v-col><v-card title="Оценка пользователя" :text="answer.question_1"/></v-col>
                     <v-col><v-card title="Вопрос 2" :text="answer.question_2"/></v-col>
                     <v-col><v-card title="Вопрос 3" :text="answer.question_3"/></v-col>
                     <v-col><v-card title="Вопрос 4" :text="answer.question_4"/></v-col>
@@ -43,18 +42,15 @@
                   </v-row>
                 </v-card>
               </v-col>
-              <v-col cols="1">
+              <v-col class="d-flex flex-column" cols="1">
                 <v-tooltip text="Релевантность" >
                   <template v-slot:activator="{ props }">
-                    <v-sheet elevation="6" v-bind="props" max-height="50" max-width="50" class="fill-height" :color="answer.randomRel ? 'red' : 'green'">
-                    </v-sheet>
+                      <v-icon v-bind="props" :icon="answer.randomRel ? 'mdi-trending-up' : 'mdi-trending-down'" />
                   </template>
                 </v-tooltip>
-                <v-divider  style="max-width: 50px"/>
                 <v-tooltip text="Позитивный/Негативный">
                   <template v-slot:activator="{ props }">
-                    <v-sheet elevation="6" v-bind="props" max-height="50" max-width="50" class="fill-height" :color="answer.random ? 'green' : 'red'">
-                    </v-sheet>
+                      <v-icon v-bind="props" :icon="answer.random ? 'mdi-thumb-up' : 'mdi-thumb-down'" />
                   </template>
                 </v-tooltip>
               </v-col>
