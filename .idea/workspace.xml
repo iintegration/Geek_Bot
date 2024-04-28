@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f6ce6df4-83f0-4f74-ba11-069bd77cf1fe" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geek_back/models/best_model_object/config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/geek_back/models/best_model_object/config.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geek_back/models/best_model_object/meta.json" beforeDir="false" afterPath="$PROJECT_DIR$/geek_back/models/best_model_object/meta.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geek_back/models/best_model_object/textcat/cfg" beforeDir="false" afterPath="$PROJECT_DIR$/geek_back/models/best_model_object/textcat/cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geek_back/models/best_model_object/vocab/key2row" beforeDir="false" afterPath="$PROJECT_DIR$/geek_back/models/best_model_object/vocab/key2row" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geek_back/models/best_model_object/vocab/lookups.bin" beforeDir="false" afterPath="$PROJECT_DIR$/geek_back/models/best_model_object/vocab/lookups.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geek_back/models/best_model_object/vocab/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/geek_back/models/best_model_object/vocab/strings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geek_back/models/best_model_object/vocab/vectors" beforeDir="false" afterPath="$PROJECT_DIR$/geek_back/models/best_model_object/vocab/vectors" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geek_back/models/best_model_object/vocab/vectors.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/geek_back/models/best_model_object/vocab/vectors.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_positive/config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_positive/config.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_positive/meta.json" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_positive/meta.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_positive/tok2vec/cfg" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_positive/tok2vec/cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_positive/tok2vec/model" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_positive/tok2vec/model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_relevant/config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_relevant/config.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_relevant/meta.json" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_relevant/meta.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_relevant/textcat/cfg" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_relevant/textcat/cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_relevant/textcat/model" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_relevant/textcat/model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_relevant/tok2vec/cfg" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_relevant/tok2vec/cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_relevant/tok2vec/model" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_relevant/tok2vec/model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_relevant/vocab/key2row" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_relevant/vocab/key2row" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_relevant/vocab/lookups.bin" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_relevant/vocab/lookups.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_relevant/vocab/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_relevant/vocab/strings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_relevant/vocab/vectors" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_relevant/vocab/vectors" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/models/best_model_relevant/vocab/vectors.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/ml/models/best_model_relevant/vocab/vectors.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/pipeline.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/ml/pipeline.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2fhJ5usCuvJAh9mm9RB3Ut1pqrf" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f6ce6df4-83f0-4f74-ba11-069bd77cf1fe" name="Changes" comment="" />
+      <created>1714247199177</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1714247199177</updated>
+      <workItem from="1714247202667" duration="356000" />
+      <workItem from="1714247571565" duration="177000" />
+      <workItem from="1714247821535" duration="6862000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
