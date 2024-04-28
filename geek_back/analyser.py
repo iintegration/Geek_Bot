@@ -57,9 +57,19 @@ class Model:
 
         text_list = []
 
+        # print(f"answer: {answer}\t type: {type(answer)}")
+
+
         for i in range(len(answer)):
-            txt = answer[i]['question_2'] + " " + answer[i]['question_3'] + " " + answer[i]['question_4'] + " " + \
-                  answer[i]['question_5']
+            for j in range(1, 6):
+                if not answer[i].get(f'question_{j}', False):
+                    answer[i][f'question_{j}'] = "---"
+
+           #  print(f"answer[{i}]: {answer[i]}")
+
+
+        for i in range(len(answer)):
+            txt = answer[i]['question_2'] + " " + answer[i]['question_3'] + " " + answer[i]['question_4'] + " " + answer[i]['question_5']
             txt = self.__clear_string(txt, stop_words)
             txt = self.__natasha_lemmant(txt)
             text_list.append(txt)
