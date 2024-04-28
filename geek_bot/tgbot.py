@@ -37,6 +37,7 @@ async def start_quiz(msg: Message, state: FSMContext) -> None:
     conn.close()
     async with state.proxy() as data:
         data['questions'] = questions
+        data['current_question_index'] = 0  # Добавлено
     await state.set_state(Form.current_question)
     await ask_question(msg, state)
 
@@ -44,11 +45,12 @@ async def start_quiz(msg: Message, state: FSMContext) -> None:
 async def ask_question(msg: Message, state: FSMContext):
     async with state.proxy() as data:
         questions = data['questions']
-    if not questions:
+        current_question_index = data['current_question_index']  # Добавлено
+    if current_question_index >= len(questions):  # Изменено
         await msg.answer(text="Спасибо за ответы!")
         await state.set_state(Form.answer)
         return
-    question = questions[0]
+    question = questions[current_question_index]  # Изменено
     await msg.answer(text=question[2])
     async with state.proxy() as data:
         data['current_question'] = question[0]
@@ -61,6 +63,15 @@ async def process_answer(msg: Message, state: FSMContext):
         question_id = data['current_question']
         user_id = msg.from_user.id
         answer = msg.text
+        questions = data['questions']
+        current_question_index = data['current_question_index']  # Добавлено
+
+    # Проверка, является ли это первым вопросом и ответ меньше 5
+    if current_question_index == 0 and int(answer) < 5:  # Изменено
+        await msg.answer(text="Ваш ответ на первый вопрос меньше 5, тест завершен.")
+        await state.reset_state()
+        return
+
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     cursor.execute("INSERT INTO answers (question_id, answer, user_id) VALUES (%s, %s, %s)", (question_id, answer, user_id))
@@ -68,13 +79,9 @@ async def process_answer(msg: Message, state: FSMContext):
     cursor.close()
     conn.close()
     async with state.proxy() as data:
-        questions = data['questions']
-        questions.pop(0)
+        data['current_question_index'] += 1  # Увеличиваем индекс текущего вопроса
     await state.set_state(Form.current_question)
-    if questions:
-        await ask_question(msg, state)
-    else:
-        await msg.answer(text="Спасибо за ответы!")
+    await ask_question(msg, state)
 
 
 async def main() -> None:

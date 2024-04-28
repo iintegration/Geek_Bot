@@ -1,2 +1,2 @@
 BOT_TOKEN = "6759988933:AAHFwoKKwKTAzEt78B3bHlh-IYzNyQ5FGXY"
-URL = "postgresql://postgres:123123Kal@127.0.0.1/geek_test"
+URL = "postgresql://geek_test_owner:TfQWm9S7IXPk@ep-floral-credit-a2ev3h8l.eu-central-1.aws.neon.tech/geek_test?sslmode=require"
