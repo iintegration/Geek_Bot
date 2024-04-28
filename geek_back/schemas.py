@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Dict, List
 
 from pydantic import BaseModel
@@ -15,6 +16,7 @@ class Answer(AnswerBase):
     id: int
     question_id: int
     user_id: int
+    created_at: str
 
     class Config:
         orm_mode = True

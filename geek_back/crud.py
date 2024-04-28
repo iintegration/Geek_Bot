@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, defaultdict
 from datetime import datetime
 from itertools import groupby
 from typing import Dict, List, Type
@@ -42,8 +42,6 @@ def get_answers_formatted(db: Session, skip: int = 0, limit: int = 100):
         data_format.append(answers)
 
     return data_format
-
-
 
 
 def get_analyse(db: Session, skip: int = 0, limit: int = 100) -> Dict:
@@ -242,7 +240,7 @@ def get_analyse_period(db: Session, start_time: datetime, end_time: datetime, sk
 
 
 def get_analyse_raw_period(db: Session, start_time: datetime, end_time: datetime, skip: int = 0, limit: int = 100) -> \
-List[int]:
+        List[int]:
     answers_formatted = get_answers_formatted(db, skip=skip, limit=limit)
 
     # Фильтруем ответы по временному промежутку
@@ -281,11 +279,14 @@ List[int]:
     return result
 
 
-def get_analyse_period_course(db: Session, start_time: datetime, end_time: datetime, course: str, skip: int = 0, limit: int = 100) -> Dict:
+def get_analyse_period_course(db: Session, start_time: datetime, end_time: datetime, course: str, skip: int = 0,
+                              limit: int = 100) -> Dict:
     answers_formatted = get_answers_formatted(db, skip=skip, limit=limit)
 
     # Фильтруем ответы по временному промежутку и курсу
-    answers_in_period_and_course = [answer for answer in answers_formatted if start_time <= answer['created_at'] <= end_time and answer.get('course') == course]
+    answers_in_period_and_course = [answer for answer in answers_formatted if
+                                    (start_time <= answer['created_at'] <= end_time) and (
+                                            answer.get('course') == course)]
 
     user_answers = {}
     for answer in answers_in_period_and_course:
@@ -353,11 +354,13 @@ def get_analyse_period_course(db: Session, start_time: datetime, end_time: datet
     return formatted_result
 
 
-def get_analyse_raw_period_course(db: Session, start_time: datetime, end_time: datetime, course: str, skip: int = 0, limit: int = 100) -> List[int]:
+def get_analyse_raw_period_course(db: Session, start_time: datetime, end_time: datetime, course: str, skip: int = 0,
+                                  limit: int = 100) -> List[int]:
     answers_formatted = get_answers_formatted(db, skip=skip, limit=limit)
 
     # Фильтруем ответы по временному промежутку и курсу
-    answers_in_period_and_course = [answer for answer in answers_formatted if start_time <= answer['created_at'] <= end_time and answer.get('course') == course]
+    answers_in_period_and_course = [answer for answer in answers_formatted if
+                                    start_time <= answer['created_at'] <= end_time and answer.get('course') == course]
 
     user_answers = {}
     for answer in answers_in_period_and_course:
@@ -391,3 +394,95 @@ def get_analyse_raw_period_course(db: Session, start_time: datetime, end_time: d
 
     return result
 
+
+def get_answers_for_course(db: Session, course: str, skip: int = 0, limit: int = 100):
+    formatted_answers = get_answers_formatted(db, skip=skip, limit=limit)
+    answers_for_course = [answer for answer in formatted_answers if answer.get('course') == course]
+    return answers_for_course
+
+
+def get_course_stats_no_date(db: Session, course: str, skip: int = 0, limit: int = 100) -> Dict:
+    answers_formatted = get_answers_formatted(db, skip=skip, limit=limit)
+
+    # Фильтруем ответы только для указанного курса
+    answers_for_course = [answer for answer in answers_formatted if answer.get('course') == course]
+
+    user_answers = {}
+    for answer in answers_for_course:
+        user_id = answer['user']
+        question_keys = [key for key in answer.keys() if key.startswith('question_')]
+        for question_key in question_keys:
+            user_answers.setdefault(user_id, {}).update({question_key: answer[question_key]})
+
+    data_format = []
+    for answers in user_answers.values():
+        data_format.append(answers)
+
+    object_cats = Model(model_path=best_model_path)
+    positive_cats = Model(model_path=best_model_path_positive)
+    relevant_cats = Model(model_path=best_model_path_relevant)
+
+    pred_object = object_cats.predict(data_format)
+    pred_positive = positive_cats.predict(data_format)
+    pred_relevant = relevant_cats.predict(data_format)
+
+    pred_object = [int(value) for value in pred_object]
+    pred_positive = [int(value) for value in pred_positive]
+    pred_relevant = [int(value) for value in pred_relevant]
+
+    pred_object_count = Counter(pred_object)
+    pred_positive_count = Counter(pred_positive)
+    pred_relevant_count = Counter(pred_relevant)
+
+    total_samples = len(data_format)
+
+    formatted_result = {
+        "pred_object": {
+            "вебинар": pred_object_count.get(0, 0),
+            "программа": pred_object_count.get(1, 0),
+            "преподаватель": pred_object_count.get(2, 0),
+            "percentages": {
+                "вебинар": pred_object_count.get(0, 0) / total_samples * 100,
+                "программа": pred_object_count.get(1, 0) / total_samples * 100,
+                "преподаватель": pred_object_count.get(2, 0) / total_samples * 100
+            }
+        },
+        "pred_positive": {
+            "позитивные": pred_positive_count.get(1, 0),
+            "негативные": pred_positive_count.get(0, 0),
+            "percentages": {
+                "позитивные": pred_positive_count.get(1, 0) / total_samples * 100,
+                "негативные": pred_positive_count.get(0, 0) / total_samples * 100
+            }
+        },
+        "pred_relevant": {
+            "counts": {
+                "релевантные": pred_relevant_count.get(1, 0),
+                "нерелевантные": pred_relevant_count.get(0, 0)
+            },
+            "percentages": {
+                "релевантные": pred_relevant_count.get(1, 0) / total_samples * 100,
+                "нерелевантные": pred_relevant_count.get(0, 0) / total_samples * 100
+            }
+        },
+        "data": data_format
+    }
+
+    return formatted_result
+
+
+def get_course_names(db: Session, skip: int = 0, limit: int = 100) -> List[str]:
+    answers = get_answers_formatted(db, skip=skip, limit=limit)
+    course_names = set()
+    for answer in answers:
+        course_names.add(answer.get("course"))
+    return list(course_names)
+
+
+def get_course_stats_for_all_courses(db: Session, skip: int = 0, limit: int = 100) -> Dict[str, Dict]:
+    course_names = get_course_names(db, skip=skip, limit=limit)
+    all_course_stats = {}
+    for course in course_names:
+        course_stats = get_course_stats_no_date(db, course=course, skip=skip, limit=limit)
+        all_course_stats[course] = course_stats
+    return all_course_stats
